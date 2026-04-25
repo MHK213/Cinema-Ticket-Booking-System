@@ -14,6 +14,11 @@ private:
     string _ReservedBy;
 
 public:
+    clsSeat() {
+        _Row = 0;
+        _Col = 0;
+    }
+
     clsSeat(int Row, int Col) {
         _Row = Row;
         _Col = Col;
