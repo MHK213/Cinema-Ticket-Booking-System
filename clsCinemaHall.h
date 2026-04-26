@@ -4,6 +4,7 @@
 #include <vector>
 #include "clsSeat.h"
 #include "clsBooking.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -33,13 +34,28 @@ public:
 	}
 
 	void ShowSeats() {
-		for (int R = 0; R < _Rows; R++) {
-			for (int C = 0; C < _Cols; C++) {
-				clsSeat& Seat = _Seats[R][C];
 
-				if (Seat.IsReserved()) cout << "[X] ";
-				else cout << "[O] ";
+		cout << "\n\n\t\t\t        ---All Seats---\n\n";
+
+		int consoleWidth = 80;
+		int seatWidth = 4; 
+		int lineWidth = _Cols * seatWidth;
+		int padding = (consoleWidth - lineWidth) / 2;
+
+		for (int R = 0; R < _Rows; R++) {
+
+			cout << setw(padding) << ""; 
+
+			for (int C = 0; C < _Cols; C++) {
+
+				clsSeat& seat = _Seats[R][C];
+
+				if (seat.IsReserved())
+					cout << "[X] ";
+				else
+					cout << "[O] ";
 			}
+
 			cout << endl;
 		}
 	}
@@ -53,11 +69,16 @@ public:
 		clsSeat& Seat = _Seats[Row][Col];
 
 		if (!Seat.Reserve(name)) {
-			cout << "\nSeat already reserved!";
+			cout << "\nSeat with position [" << Row << "][" << Col << "] already reserved!";
 			return false;
 		}
 
-		cout << "\nSeat reserved Successfully!";
+		cout << "\nSeat with position [" << Row << "][" << Col << "] reserved Successfully!\n";
+
+		clsBooking booking(name, Seat.GetPosition());
+
+		_Bookings.push_back(booking);
+
 		return true;
 	}
 
@@ -75,6 +96,61 @@ public:
 		}
 
 		cout << "\nSeat Cancelled Successfully!";
+
+		string position = Seat.GetPosition();
+
+		for (auto it = _Bookings.begin(); it != _Bookings.end(); ++it) {
+			if (it->GetSeatPosition() == position) {
+				_Bookings.erase(it);
+				break;
+			}
+		}
+
 		return true;
+	}
+
+	int GetAvailableSeats() {
+
+		int count = 0;
+
+		for (int r = 0; r < _Rows; r++) {
+			for (int c = 0; c < _Cols; c++) {
+
+				if (!_Seats[r][c].IsReserved())
+					count++;
+			}
+		}
+
+		return count;
+	}
+
+	int GetReservedSeats() {
+
+		int count = 0;
+
+		for (int r = 0; r < _Rows; r++) {
+			for (int c = 0; c < _Cols; c++) {
+
+				if (_Seats[r][c].IsReserved())
+					count++;
+			}
+		}
+
+		return count;
+	}
+
+	void PrintAllBookings() {
+
+		if (_Bookings.empty()) {
+			cout << "\n\n\t\t\t          ---Bookings---";
+			cout << "\n\t\t\tNo bookings available.\n";
+			return;
+		}
+
+		cout << "\n\n\t\t\t          ---Bookings---";
+
+		for (clsBooking& B : _Bookings) {
+			B.Print();
+		}
 	}
 };

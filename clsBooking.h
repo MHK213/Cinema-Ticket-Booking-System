@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include "clsSeat.h"
+#include "clsDate.h"
 
 using namespace std;
 
@@ -17,11 +18,11 @@ private:
 public:
     static int NextID;
 
-    clsBooking(string ClientName, string SeatPosition, string BookingTime) {
+    clsBooking(string ClientName, string SeatPosition) {
         _ID = ++NextID;
         _ClientName = ClientName;
         _SeatPosition = SeatPosition;
-        _BookingTime = BookingTime;
+        _BookingTime = clsDate::DateToString(clsDate::GetSystemDate());
     }
 
     string GetClientName() const { return _ClientName; }
@@ -30,7 +31,7 @@ public:
 
     void Print() {
         cout << "\n\t\t\t ________________________________\n";
-        cout << "\n\t\t\t\tBooking Info";
+        cout << "\n\t\t\t\t   Booking Info";
         cout << "\n\t\t\t ________________________________\n";
         cout << "\n\t\t\t   ID            : " << _ID;
         cout << "\n\t\t\t   Client Name   : " << _ClientName;
