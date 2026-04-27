@@ -19,7 +19,6 @@ The system demonstrates the use of:
 * Object-Oriented Programming (OOP)
 * Data Structures (`vector`, `2D vector`)
 * Encapsulation and class design
-* Basic system design principles
 
 ---
 
