@@ -159,7 +159,7 @@ Madi Abdelheq
 
 ---
 
-## ⭐ Notes
+## Notes
 
 This project is Developed as part of **Data Structures Level 1 Project**
 
